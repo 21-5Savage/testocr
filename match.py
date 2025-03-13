@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import os
 
 #eniig ter chigeer ni gpt hiisen bolohoor bi uuro ch oilgohgui bna
 
@@ -83,39 +84,63 @@ def visualize_matrices(matrix1, matrix2, processed1, processed2, norm1, norm2):
     plt.show()
 
 def main():
-    # Define the file paths
-    file1_path = "split\\1.txt"
-    file2_path = "alphabet\\binary\\b.txt"
     
-    try:
-        # Load matrices from files
-        matrix1 = read_matrix_from_file(file1_path)
-        matrix2 = read_matrix_from_file(file2_path)
+    '''1 useg taaruuldag code '''
+    
+    # file1_path = "split\\1.txt"
+    # file2_path = "alphabet\\binary\\b.txt"
+    
+    # try:
+    #     # Load matrices from files
+    #     matrix1 = read_matrix_from_file(file1_path)
+    #     matrix2 = read_matrix_from_file(file2_path)
         
-        # Preprocess matrices
-        processed1 = preprocess_matrix(matrix1)
-        processed2 = preprocess_matrix(matrix2)
+    #     # Preprocess matrices
+    #     processed1 = preprocess_matrix(matrix1)
+    #     processed2 = preprocess_matrix(matrix2)
         
-        # Normalize to the same size
-        norm1 = normalize_matrix(processed1)
-        norm2 = normalize_matrix(processed2)
+    #     # Normalize to the same size
+    #     norm1 = normalize_matrix(processed1)
+    #     norm2 = normalize_matrix(processed2)
         
-        # Compare matrices
-        is_same, similarity = compare_matrices(matrix1, matrix2)
+    #     # Compare matrices
+    #     is_same, similarity = compare_matrices(matrix1, matrix2)
         
-        # Print results
-        print(f"Similarity score: {similarity:.2f}")
-        if is_same:
-            print("The matrices represent the same letter")
-        else:
-            print("The matrices represent different letters")
+    #     # Print results
+    #     print(f"Similarity score: {similarity:.2f}")
+    #     if is_same:
+    #         print("The matrices represent the same letter")
+    #     else:
+    #         print("The matrices represent different letters")
         
         # Visualize matrices
-        visualize_matrices(matrix1, matrix2, processed1, processed2, norm1, norm2)
+        #visualize_matrices(matrix1, matrix2, processed1, processed2, norm1, norm2)
         
-    except Exception as e:
-        print(f"Error: {e}")
-
+    # except Exception as e:
+    #     print(f"Error: {e}")
+    
+    
+    '''buh usgiig ni taruulna'''
+    
+    # bi yag yaj yu bichsenee uuro ch sain oilgohgui baina
+    alphabet_folder = "alphabet\\binary"
+    text_folder = "split"
+    
+    guess = []
+    for i in range(1,18):
+        text_loc = f"{i}.txt"
+        matrix_text = read_matrix_from_file(os.path.join(text_folder, text_loc))
+        possible_matches = dict()
+        for alphabet_loc in os.listdir(alphabet_folder):
+            letter, _ = os.path.splitext(alphabet_loc)
+            matrix_alphabet = read_matrix_from_file(os.path.join(alphabet_folder, alphabet_loc))
+            is_same, similarity = compare_matrices(matrix_text, matrix_alphabet)
+            possible_matches[letter] = similarity
+        max_key = max(possible_matches, key=possible_matches.get)
+        print(max_key, " : ", possible_matches[max_key])
+        guess += max_key
+    print(guess)
+        
 # If running this script directly
 if __name__ == "__main__":
     main()

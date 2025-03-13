@@ -81,6 +81,8 @@ def remove_space(file_path):
             
 def main():
     #see testocr\converter.py 
+    
+    # example folder dotor tanilt hiij baigaa zurag baigaa
     converter.converter("example\\test.png", "example\\output.txt")
     
     splitter("example\\output.txt")
